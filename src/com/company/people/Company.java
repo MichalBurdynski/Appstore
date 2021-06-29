@@ -171,7 +171,7 @@ public class Company {
         return projectIndex;
     }
 
-
+    //OK
     public void testingProject(int index) {
         try {
             if (this.unfinishedProjects.isEmpty()) {
@@ -186,32 +186,42 @@ public class Company {
                         break;
                     }
                 }
+
                 if (!isValid) {
                     throw new Exception();
+                } else if (this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting == 0) {
+                    throw new Exception();
                 } else {
-                    int daysLeft = 1;
+
+                    int amountOfWorkDaysTested = this.unfinishedProjects.get(indexInArrayList).workDays.size();
                     for (WorkDay workDay : this.unfinishedProjects.get(indexInArrayList).workDays) {
-                        if (!workDay.isTested && daysLeft != 0) {
-                            workDay.isTested = true;
-                            WorkDay workDay1 = new WorkDay(7, 1, actualDate, actualDate, true);
-                            daysLeft -= 1;
-                            this.unfinishedProjects.get(indexInArrayList).workDays.add(workDay1);
-                            this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting -= 1;
-                            System.out.println("New code has been tested.");
-                            if (this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting > 0)
-                            {
-                                System.out.println("Remaining days to finish testing the project: "+this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting);
-                            }
-                            else
-                            {
-                                System.out.println("Project successfully tested.");
+                        if (workDay.isTested) {
+                            amountOfWorkDaysTested--;
+                        }
+                    }
+
+                    if (amountOfWorkDaysTested == 0) {
+                        throw new Exception();
+                    } else {
+                        for (WorkDay workDay : this.unfinishedProjects.get(indexInArrayList).workDays) {
+                            if (!workDay.isTested) {
+                                workDay.isTested = true;
+                                WorkDay workDay1 = new WorkDay(7, 1, actualDate, actualDate, true);
+                                this.unfinishedProjects.get(indexInArrayList).workDays.add(workDay1);
+                                this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting -= 1;
+                                System.out.println("New code has been tested.");
+                                if (this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting > 0) {
+                                    System.out.println("Remaining days to finish testing the project: " + this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting);
+                                }
+                                break;
                             }
                         }
                     }
                 }
             }
-        } catch (Exception e) {
-            System.out.println("The project does not exist or is finished.");
+        }
+         catch (Exception e) {
+            System.out.println("The project does not exist or is fully tested or there is no code to test");
         }
     }
 
@@ -326,7 +336,6 @@ public class Company {
                     isValid = true;
                     indexInArrayList = this.workers.indexOf(worker);
                     break;
-
                 }
             }
             if (!isValid) {
