@@ -1,5 +1,9 @@
 package com.company.people;
 
+import com.company.project.Project;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Programmer extends Worker{
@@ -25,6 +29,11 @@ public class Programmer extends Worker{
                 ", knowsPrestashop=" + knowsPrestashop +
                 ", salary=" + salary +
                 "} \n";
+    }
+
+    @Override
+    public int GenerateProject(ArrayList<Project> unfinishedProjects, int projectIndex, LocalDate actualDate) {
+        return 0;
     }
 
     @Override
