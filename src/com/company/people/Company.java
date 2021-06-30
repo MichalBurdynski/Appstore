@@ -46,6 +46,10 @@ public class Company {
             if (!isValid) {
                 throw new Exception();
             }
+            if (projects.get(indexInArrayList).projectLevel == 3 && this.workers.size()+this.coWorkers.size() == 0)
+            {
+                System.out.println("A level 3 contract cannot be signed if there are no employees and associates.");
+            }
             else {
                 this.unfinishedProjects.add(projects.get(indexInArrayList));
                 projects.remove(indexInArrayList);
@@ -433,23 +437,18 @@ public class Company {
         int monthNumber = date.getMonthValue();
         if (((dayOfMonth == 28) && (monthNumber == 2)) ||
                 ((dayOfMonth == 30) && ((monthNumber == 4) || (monthNumber == 6) || (monthNumber == 9) || (monthNumber == 11))) ||
-                ((dayOfMonth == 31) && ((monthNumber == 1) || (monthNumber == 3) || (monthNumber == 5) || (monthNumber == 7) || (monthNumber == 8) || (monthNumber == 10) || (monthNumber == 12))))
-        {
+                ((dayOfMonth == 31) && ((monthNumber == 1) || (monthNumber == 3) || (monthNumber == 5) || (monthNumber == 7) || (monthNumber == 8) || (monthNumber == 10) || (monthNumber == 12)))) {
 
             if (this.daysToPayOffBills != 2) {
                 this.availableCash = -100000000.0;
-            }
-            else
-            {
+            } else {
                 this.daysToPayOffBills = 0;
             }
 
-            for (CoWorker coWorker: coWorkers)
-            {
+            for (CoWorker coWorker : coWorkers) {
                 double salary;
                 salary = salaryCheckCoWorker(this.unfinishedProjects, this.finishedProjects, coWorker.idWorker, date);
-                if (salary > this.availableCash)
-                {
+                if (salary > this.availableCash) {
                     coWorkers.remove(coWorker);
                 }
                 runningCostsCoWorkers = salary;
@@ -459,74 +458,68 @@ public class Company {
                 runningCostsWorkers += worker.salary;
 
                 //10% for juices and bananas for developers and cookies for sellers
-                runningCostsOverall = 1.1 *(runningCostsCoWorkers + runningCostsWorkers);
+                runningCostsOverall = 1.1 * (runningCostsCoWorkers + runningCostsWorkers);
 
                 this.availableCash -= runningCostsOverall;
 
-                double income = 0.0;
-                for (Project project : this.finishedProjects) {
-                    if (project.dateWhenProjectIsPaidByClient.getMonthValue() == (monthNumber) && (project.dateWhenProjectIsPaidByClient.getYear() == date.getYear())) {
-                        income += project.projectRealPrice;
-                    }
-                }
-
-                incomeTax = 0.1 * income;
-
-
-                this.availableCash -= incomeTax;
-
-                //Game over conditions
-                try {
-                    if (availableCash <= 0.0) {
-                        throw new Exception();
-                    }
-                } catch (Exception e) {
-                    System.out.println("GAME OVER !!! You are bankrupt.");
-                    exit(0);
-                }
-
-                //Victory conditions
-
-                boolean isSolvable = false;
-
-                try {
-                    if (this.availableCash > 0.0) {
-                        isSolvable = true;
-                    }
-                    
-                    int numberOfFinishedBigProjects = 0;
-                    int numberOfProjectsGeneratedBySellers = 0;
-
+                //Tax
+                {
+                    double income = 0.0;
                     for (Project project : this.finishedProjects) {
-                        if (project.whoGeneratedProject == 2) {
-                            numberOfProjectsGeneratedBySellers++;
+                        if (project.dateWhenProjectIsPaidByClient.getMonthValue() == (monthNumber) && (project.dateWhenProjectIsPaidByClient.getYear() == date.getYear())) {
+                            income += project.projectRealPrice;
                         }
                     }
 
-                    for (Project project : this.finishedProjects) {
-                        if (project.projectLevel == 3) {
-                            boolean isDoneByWorkers = true;
-                            for (WorkDay workDay : project.workDays) {
-                                if (workDay.typeOfWorker == 1) {
-                                    isDoneByWorkers = false;
-                                    break;
-                                }
-                            }
-                            if (isDoneByWorkers) {
-                                numberOfFinishedBigProjects++;
-                            }
-                        }
+                    incomeTax = 0.1 * income;
+                    if (incomeTax > this.availableCash) {
+                        System.out.println("GAME OVER !!! You are bankrupt.");
+                        exit(0);
+                    } else {
+                        this.availableCash -= incomeTax;
                     }
-
-                    if ((isSolvable) && (numberOfFinishedBigProjects == 3) && (numberOfProjectsGeneratedBySellers >= 1)) {
-                        throw new Exception();
-                    }
-                } catch (Exception e) {
-                    System.out.println("VICTORY!!!");
                 }
             }
-
         }
+
+        //Game over conditions
+        if (availableCash <= 0.0) {
+            System.out.println("GAME OVER !!! You are bankrupt.");
+            exit(0);
+        }
+
+        //Victory conditions
+        boolean isSolvable = this.availableCash > 0.0;
+
+        int numberOfFinishedBigProjects = 0;
+        int numberOfProjectsGeneratedBySellers = 0;
+
+        for (Project project : this.finishedProjects) {
+            if (project.whoGeneratedProject == 2) {
+                numberOfProjectsGeneratedBySellers++;
+            }
+        }
+
+        for (Project project : this.finishedProjects) {
+            if (project.projectLevel == 3) {
+                boolean isDoneByWorkers = true;
+                for (WorkDay workDay : project.workDays) {
+                    if (workDay.typeOfWorker == 1) {
+                        isDoneByWorkers = false;
+                        break;
+                    }
+                }
+                if (isDoneByWorkers) {
+                    numberOfFinishedBigProjects++;
+                }
+            }
+        }
+
+        if ((isSolvable) && (numberOfFinishedBigProjects == 3) && (numberOfProjectsGeneratedBySellers >= 1)) {
+            System.out.println("VICTORY!!!");
+            exit(0);
+        }
+
         date = date.plusDays(1);
         return date;
     }

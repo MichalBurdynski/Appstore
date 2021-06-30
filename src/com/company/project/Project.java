@@ -154,6 +154,130 @@ public class Project {
         this.daysToFinishTesting = this.prestashopDays + this.databaseDays+this.wordpressDays+this.backendDays+this.mobileDays+this.frontendDays;
     }
 
+    public Project(int projectIndex, int whoGeneratedProject, LocalDate date, int level) {
+        this.projectLevel = level;
+        switch (level) {
+            case 1: {
+                int numberOfTechnology = ThreadLocalRandom.current().nextInt(1, 6);
+                switch (numberOfTechnology) {
+                    case 1:
+                        this.frontendDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        break;
+                    case 2:
+                        this.backendDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        break;
+                    case 3:
+                        this.databaseDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        break;
+                    case 4:
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        break;
+                    case 5:
+                        this.prestashopDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            break;
+
+
+            case 2: {
+                int numberOfTechnology = ThreadLocalRandom.current().nextInt(2, 7);
+                switch (numberOfTechnology) {
+                    case 2:
+                        this.frontendDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        break;
+                    case 3: {
+                        this.frontendDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                    }
+                    break;
+
+                    case 4: {
+                        this.frontendDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.databaseDays = ThreadLocalRandom.current().nextInt(1, 4);
+                    }
+                    break;
+
+                    case 5: {
+                        this.frontendDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.databaseDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.prestashopDays = ThreadLocalRandom.current().nextInt(1, 4);
+                    }
+                    break;
+
+                    case 6: {
+                        this.frontendDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.databaseDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.mobileDays = ThreadLocalRandom.current().nextInt(1, 4);
+                    }
+                    break;
+
+                    default:
+                        break;
+                }
+                this.backendDays = ThreadLocalRandom.current().nextInt(1, 4);
+            }
+            break;
+
+            case 3: {
+                int numberOfTechnology = ThreadLocalRandom.current().nextInt(3, 7);
+                switch (numberOfTechnology) {
+                    case 3: {
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                    }
+                    break;
+
+                    case 4: {
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.databaseDays = ThreadLocalRandom.current().nextInt(1, 4);
+                    }
+                    break;
+
+                    case 5: {
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.databaseDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.prestashopDays = ThreadLocalRandom.current().nextInt(1, 4);
+                    }
+                    break;
+
+                    case 6: {
+                        this.wordpressDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.databaseDays = ThreadLocalRandom.current().nextInt(1, 4);
+                        this.mobileDays = ThreadLocalRandom.current().nextInt(1, 4);
+                    }
+                    break;
+
+                    default:
+                        break;
+                }
+                this.backendDays = ThreadLocalRandom.current().nextInt(1, 4);
+                this.frontendDays = ThreadLocalRandom.current().nextInt(1, 4);
+            }
+            break;
+
+            default:
+                break;
+        }
+        this.projectIndex = projectIndex;
+        this.typeOfClient = ThreadLocalRandom.current().nextInt(1,4);
+        this.generatingProjectDate = date;
+        this.releaseProjectDate = this.generatingProjectDate.plusDays(((this.prestashopDays + this.databaseDays+this.wordpressDays+this.backendDays+this.mobileDays+this.frontendDays)* 2L) + 7);
+        this.projectPrice = Math.floor(ThreadLocalRandom.current().nextDouble(3000.0, 15000.0));
+        this.penaltyFixedByContract = Math.floor(ThreadLocalRandom.current().nextDouble(this.projectPrice/10, this.projectPrice/5));
+        this.paymentDays = ThreadLocalRandom.current().nextInt(0, 5);
+        this.dateWhenProjectIsWeekLate = this.releaseProjectDate.plusDays(7);
+        this.dateWhenProjectIsMonthLate = this.releaseProjectDate.plusMonths(1);
+        this.whoGeneratedProject = whoGeneratedProject;
+        this.dateOfPayment = this.releaseProjectDate.plusDays(this.paymentDays);
+        this.workDays = new ArrayList<>();
+        this.daysToFinishTesting = this.prestashopDays + this.databaseDays+this.wordpressDays+this.backendDays+this.mobileDays+this.frontendDays;
+    }
+
     @Override
     public String toString() {
         String x = "";
