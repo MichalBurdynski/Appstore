@@ -19,16 +19,16 @@ public class Programmer extends Worker{
 
     @Override
     public String toString() {
-        return "Programmer{" +
-                super.toString()+
-                ", knowsBackend=" + knowsBackend +
-                ", knowsFrontend=" + knowsFrontend +
-                ", knowsDatabase=" + knowsDatabase +
-                ", knowsMobile=" + knowsMobile +
-                ", knowsWordpress=" + knowsWordpress +
-                ", knowsPrestashop=" + knowsPrestashop +
-                ", salary=" + salary +
-                "} \n";
+        return "\nProgrammer\n" +
+                super.toString()+ "\n" +
+                "knowsBackend=" + knowsBackend + "\n" +
+                "knowsFrontend=" + knowsFrontend + "\n" +
+                "knowsDatabase=" + knowsDatabase + "\n" +
+                "knowsMobile=" + knowsMobile + "\n" +
+                "knowsWordpress=" + knowsWordpress + "\n" +
+                "knowsPrestashop=" + knowsPrestashop + "\n" +
+                "Month salary=" + salary +
+                "\n";
     }
 
     @Override

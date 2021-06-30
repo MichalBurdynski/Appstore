@@ -367,16 +367,14 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{" +
-                "ownerName='" + companyName + '\'' +
-                ", availableCash=" + availableCash +
-                ", unfinishedProjects=" + unfinishedProjects +
-                ", finishedProjects=" + finishedProjects +
-                ", coWorkers=" + coWorkers +
-                ", Workers=" + workers +
-                ", daysToNewProject=" + daysToNewProject +
-                ", daysToPayOffBills=" + daysToPayOffBills +
-                '}';
+        return  "Company Name:'" + companyName + "'\n" +
+                "Available Cash: " + availableCash + '\n' +
+                "Unfinished Projects:\n" + unfinishedProjects + '\n' +
+                "Released Projects:\n" + finishedProjects + '\n' +
+                "Associates: \n" + coWorkers + "\n\n" +
+                "Employees: \n" + workers + "\n\n" +
+                "Days To New Project: " + daysToNewProject + '\n' +
+                "Visits in tax offices: " + daysToPayOffBills + "\n";
     }
 
     //OK
@@ -460,7 +458,7 @@ public class Company {
             for (Worker worker : this.workers) {
                 runningCostsWorkers += worker.salary;
 
-                //10% juices and bananas for programmers and cookies for sellers
+                //10% for juices and bananas for developers and cookies for sellers
                 runningCostsOverall = 1.1 *(runningCostsCoWorkers + runningCostsWorkers);
 
                 this.availableCash -= runningCostsOverall;
@@ -536,11 +534,11 @@ public class Company {
 
     //OK
     public void workOnProject(Project project, Programmer programmer, LocalDate date) {
-        boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 2) != 0;
+        boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 100) >= 5;
 
         boolean willBeLate;
         if (programmer.punctuality != 1.0) {
-            willBeLate = !(ThreadLocalRandom.current().nextInt(0, 101) < programmer.punctuality * 100);
+            willBeLate = !(ThreadLocalRandom.current().nextInt(0, 100) < programmer.punctuality * 100);
         } else
         {
             willBeLate = false;
@@ -548,7 +546,7 @@ public class Company {
 
         boolean willBeWorkingProject;
         if (programmer.accuracy != 1.0) {
-            int chanceOfWorkingProject = ThreadLocalRandom.current().nextInt(0, 101);
+            int chanceOfWorkingProject = ThreadLocalRandom.current().nextInt(0, 100);
             willBeWorkingProject = !(chanceOfWorkingProject < programmer.accuracy * 100);
         } else
         {
@@ -634,11 +632,11 @@ public class Company {
     public void workOnProject(Project project, CoWorker coWorker, LocalDate date) {
 
 
-        boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 2) != 0;
+        boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 100) >= 5;
 
         boolean willBeLate;
         if (coWorker.punctuality != 1.0) {
-            willBeLate = !(ThreadLocalRandom.current().nextInt(0, 101) < coWorker.punctuality * 100);
+            willBeLate = !(ThreadLocalRandom.current().nextInt(1, 101) < coWorker.punctuality * 100);
         } else
         {
             willBeLate = false;
@@ -646,7 +644,7 @@ public class Company {
 
         boolean willBeWorkingProject;
         if (coWorker.accuracy != 1.0) {
-            int chanceOfWorkingProject = ThreadLocalRandom.current().nextInt(0, 101);
+            int chanceOfWorkingProject = ThreadLocalRandom.current().nextInt(1, 101);
             willBeWorkingProject = chanceOfWorkingProject < coWorker.accuracy * 100;
         } else
         {
@@ -732,27 +730,32 @@ public class Company {
     public void testingProject(Project project, Tester tester, LocalDate date) {
         int numberOfProgrammers = 0;
 
-        for (Worker worker : workers) {
-            if (worker instanceof Programmer) {
-                numberOfProgrammers++;
+        boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 100) >= 5;
+        if (workThisDay) {
+            for (Worker worker : workers) {
+                if (worker instanceof Programmer) {
+                    numberOfProgrammers++;
+                }
             }
-        }
-        if (numberOfProgrammers >= 3) {
-            for (WorkDay workDay : project.workDays) {
-                workDay.isTested = true;
-                WorkDay workDay1 = new WorkDay(7, 2, date, date, true);
-                workDay1.worker = tester;
-                project.workDays.add(workDay1);
-            }
-            project.isProjectRunnable = true;
-        } else {
-            for (WorkDay workDay : project.workDays) {
-                if (!workDay.isTested) {
+            if (numberOfProgrammers >= 3) {
+                for (WorkDay workDay : project.workDays) {
                     workDay.isTested = true;
                     WorkDay workDay1 = new WorkDay(7, 2, date, date, true);
                     workDay1.worker = tester;
                     project.workDays.add(workDay1);
-                    break;
+                }
+                project.daysToFinishTesting = 0;
+                project.isProjectRunnable = true;
+            } else {
+                for (WorkDay workDay : project.workDays) {
+                    if (!workDay.isTested) {
+                        workDay.isTested = true;
+                        WorkDay workDay1 = new WorkDay(7, 2, date, date, true);
+                        workDay1.worker = tester;
+                        project.workDays.add(workDay1);
+                        project.daysToFinishTesting -= 1;
+                        break;
+                    }
                 }
             }
         }
@@ -804,18 +807,18 @@ public class Company {
                         project.projectRealPrice = project.projectPrice;
                     }
                     if (ThreadLocalRandom.current().nextInt(1, 101) >= 30) {
-                        project.dateWhenProjectIsPaidByClient = project.DateOfPayment;
+                        project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
                     } else {
-                        project.dateWhenProjectIsPaidByClient = project.DateOfPayment.plusWeeks(1);
+                        project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusWeeks(1);
                     }
                 }
                 if (isProjectLateMoreAWeek) {
                     project.projectRealPrice = project.projectPrice - project.penaltyFixedByContract;
-                    project.dateWhenProjectIsPaidByClient = project.DateOfPayment;
+                    project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
                 }
             } else {
                 project.projectRealPrice = 0.0;
-                project.dateWhenProjectIsPaidByClient = project.DateOfPayment;
+                project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
             }
         }
 
@@ -838,7 +841,7 @@ public class Company {
             } else {
                 project.projectRealPrice = 0.0;
             }
-            project.dateWhenProjectIsPaidByClient = project.DateOfPayment;
+            project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
         }
 
         //Cheater
@@ -850,20 +853,20 @@ public class Company {
                     }
                     if (ThreadLocalRandom.current().nextInt(1, 101) >= 1) {
                         if (ThreadLocalRandom.current().nextInt(1, 101) >= 30) {
-                            project.dateWhenProjectIsPaidByClient = project.DateOfPayment;
+                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
                         } else if (ThreadLocalRandom.current().nextInt(1, 101) <= 5) {
-                            project.dateWhenProjectIsPaidByClient = project.DateOfPayment.plusWeeks(1);
+                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusWeeks(1);
                         } else {
-                            project.dateWhenProjectIsPaidByClient = project.DateOfPayment.plusMonths(1);
+                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusMonths(1);
                         }
                     }
                 } else {
                     project.projectRealPrice = 0.0;
-                    project.dateWhenProjectIsPaidByClient = project.DateOfPayment;
+                    project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
                 }
             } else {
                 project.projectRealPrice = 0.0;
-                project.dateWhenProjectIsPaidByClient = project.DateOfPayment;
+                project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
             }
         }
     }

@@ -17,17 +17,23 @@ public class CoWorker {
 
     @Override
     public String toString() {
-        return "CoWorker{" +
-                "idWorker=" + idWorker +
-                ", typeOfWorker=" + typeOfWorker +
-                ", salaryPerDay=" + salaryPerDay +
-                ", knowsBackend=" + knowsBackend +
-                ", knowsFrontend=" + knowsFrontend +
-                ", knowsDatabase=" + knowsDatabase +
-                ", knowsMobile=" + knowsMobile +
-                ", knowsWordpress=" + knowsWordpress +
-                ", knowsPrestashop=" + knowsPrestashop +
-                "}\n";
+        String x = "";
+        switch (typeOfWorker)
+        {
+            case 1 : x = "Type of worker: the best student\n"; break;
+            case 2 : x = "Type of worker: medium student\n"; break;
+            case 3 : x = "Type of worker: the worst student\n"; break;
+            default: break;
+        }
+        return  "\nidWorker=" + idWorker + '\n' +
+                x +
+                "Daily wage: " + salaryPerDay + '\n' +
+                "knowsBackend: " + knowsBackend + '\n' +
+                "knowsFrontend: " + knowsFrontend + '\n' +
+                "knowsDatabase: " + knowsDatabase + '\n' +
+                "knowsMobile: " + knowsMobile + '\n' +
+                "knowsWordpress: " + knowsWordpress + '\n' +
+                "knowsPrestashop: " + knowsPrestashop + '\n';
     }
 
     public CoWorker(int idWorker, Integer typeOfWorker) {

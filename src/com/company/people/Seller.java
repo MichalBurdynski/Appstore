@@ -18,9 +18,9 @@ public class Seller extends Worker{
 
     @Override
     public String toString() {
-        return "Seller{" + super.toString() +
-                ", salary=" + salary +
-                "} \n";
+        return "\nSeller\n" + super.toString() + "\n" +
+                "Month salary=" + salary +
+                "\n";
     }
 
     //OK

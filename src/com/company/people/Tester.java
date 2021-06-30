@@ -10,9 +10,9 @@ public class Tester extends Worker{
 
     @Override
     public String toString() {
-        return "Tester{" + super.toString() +
-                ", salary=" + salary +
-                "} \n";
+        return "\nTester\n" + super.toString() + "\n" +
+                "Month salary=" + salary +
+                "\n";
     }
 
     @Override
