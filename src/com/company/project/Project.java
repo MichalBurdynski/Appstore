@@ -30,6 +30,20 @@ public class Project {
     public int whoGeneratedProject;
     public int daysToFinishTesting;
 
+    //Project level
+    //1 - basic project
+    //2 - medium project
+    //3 - big project
+
+    //whoGenerateProject
+    //1 - company owner
+    //2 - seller
+
+    //Client level
+    //1 - hassle-free client
+    //2 - regular client
+    //3 - cheater
+
     public Project(int projectIndex, int whoGeneratedProject, LocalDate date) {
         this.projectLevel = ThreadLocalRandom.current().nextInt(1,4);
         switch (this.projectLevel) {

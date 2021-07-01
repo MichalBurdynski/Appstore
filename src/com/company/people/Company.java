@@ -396,7 +396,9 @@ public class Company {
             if (!(coWorkers.isEmpty()) && !(this.unfinishedProjects.isEmpty())) {
                 for (CoWorker coWorker : coWorkers) {
                     for (Project project : unfinishedProjects) {
-                        workOnProject(project, coWorker, date);
+                        if (workOnProject(project, coWorker, date)) {
+                            break;
+                        }
                     }
                 }
             }
@@ -405,7 +407,9 @@ public class Company {
                 for (Worker worker : workers) {
                     for (Project project : unfinishedProjects) {
                         if (worker instanceof Programmer)
-                            workOnProject(project, (Programmer) worker, date);
+                            if (workOnProject(project, (Programmer) worker, date)) {
+                                break;
+                            }
                     }
                 }
             }
@@ -413,7 +417,9 @@ public class Company {
                 for (Worker worker : workers) {
                     for (Project project : unfinishedProjects) {
                         if (worker instanceof Tester)
-                            testingProject(project, (Tester) worker, date);
+                            if (testingProject(project, (Tester) worker, date)) {
+                                break;
+                            }
                     }
                 }
             }
@@ -437,9 +443,9 @@ public class Company {
         int monthNumber = date.getMonthValue();
         if (((dayOfMonth == 28) && (monthNumber == 2)) ||
                 ((dayOfMonth == 30) && ((monthNumber == 4) || (monthNumber == 6) || (monthNumber == 9) || (monthNumber == 11))) ||
-                ((dayOfMonth == 31) && ((monthNumber == 1) || (monthNumber == 3) || (monthNumber == 5) || (monthNumber == 7) || (monthNumber == 8) || (monthNumber == 10) || (monthNumber == 12)))) {
-
-            if (this.daysToPayOffBills != 2) {
+                ((dayOfMonth == 31) && ((monthNumber == 1) || (monthNumber == 3) || (monthNumber == 5) || (monthNumber == 7) || (monthNumber == 8) || (monthNumber == 10) || (monthNumber == 12))))
+        {
+            if (this.daysToPayOffBills < 2) {
                 this.availableCash = -100000000.0;
             } else {
                 this.daysToPayOffBills = 0;
@@ -526,14 +532,15 @@ public class Company {
 
 
     //OK
-    public void workOnProject(Project project, Programmer programmer, LocalDate date) {
+    public boolean workOnProject(Project project, Programmer programmer, LocalDate date) {
+
+        boolean isOK = false;
         boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 100) >= 5;
 
         boolean willBeLate;
         if (programmer.punctuality != 1.0) {
             willBeLate = !(ThreadLocalRandom.current().nextInt(0, 100) < programmer.punctuality * 100);
-        } else
-        {
+        } else {
             willBeLate = false;
         }
 
@@ -541,97 +548,92 @@ public class Company {
         if (programmer.accuracy != 1.0) {
             int chanceOfWorkingProject = ThreadLocalRandom.current().nextInt(0, 100);
             willBeWorkingProject = !(chanceOfWorkingProject < programmer.accuracy * 100);
-        } else
-        {
+        } else {
             willBeWorkingProject = true;
         }
 
-        if (workThisDay)
-        if (project.backendDays > 0 && programmer.knowsBackend) {
-            project.backendDays -= 1;
-            WorkDay workDay;
-            if (willBeLate) {
-                workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
+        if (workThisDay) {
+            if (project.backendDays > 0 && programmer.knowsBackend) {
+                project.backendDays -= 1;
+                WorkDay workDay;
+                if (willBeLate) {
+                    workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
+                } else {
+                    workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
+                }
+                workDay.worker = programmer;
+                project.workDays.add(workDay);
+                isOK = true;
+            } else if (project.frontendDays > 0 && programmer.knowsFrontend) {
+                project.frontendDays -= 1;
+                WorkDay workDay;
+                if (willBeLate) {
+                    workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
+                } else {
+                    workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
+                }
+                workDay.worker = programmer;
+                project.workDays.add(workDay);
+                isOK = true;
+            } else if (project.databaseDays > 0 && programmer.knowsDatabase) {
+                project.databaseDays -= 1;
+                WorkDay workDay;
+                if (willBeLate) {
+                    workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
+                } else {
+                    workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
+                }
+                workDay.worker = programmer;
+                project.workDays.add(workDay);
+                isOK = true;
+            } else if (project.wordpressDays > 0 && programmer.knowsWordpress) {
+                project.wordpressDays -= 1;
+                WorkDay workDay;
+                if (willBeLate) {
+                    workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
+                } else {
+                    workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
+                }
+                workDay.worker = programmer;
+                project.workDays.add(workDay);
+                isOK = true;
+            } else if (project.prestashopDays > 0 && programmer.knowsPrestashop) {
+                project.prestashopDays -= 1;
+                WorkDay workDay;
+                if (willBeLate) {
+                    workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
+                } else {
+                    workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
+                }
+                workDay.worker = programmer;
+                project.workDays.add(workDay);
+                isOK = true;
+            } else if (project.mobileDays > 0 && programmer.knowsMobile) {
+                project.mobileDays -= 1;
+                WorkDay workDay;
+                if (willBeLate) {
+                    workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
+                } else {
+                    workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
+                }
+                workDay.worker = programmer;
+                project.workDays.add(workDay);
+                isOK = true;
             }
-            else
-            {
-                workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
-            }
-            workDay.worker = programmer;
-            project.workDays.add(workDay);
-        } else if (project.frontendDays > 0 && programmer.knowsFrontend) {
-            project.frontendDays -= 1;
-            WorkDay workDay;
-            if (willBeLate) {
-                workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
-            }
-            else
-            {
-                workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
-            }
-            workDay.worker = programmer;
-            project.workDays.add(workDay);
-        } else if (project.databaseDays > 0 && programmer.knowsDatabase) {
-            project.databaseDays -= 1;
-            WorkDay workDay;
-            if (willBeLate) {
-                workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
-            }
-            else
-            {
-                workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
-            }
-            workDay.worker = programmer;
-            project.workDays.add(workDay);
-        } else if (project.wordpressDays > 0 && programmer.knowsWordpress) {
-            project.wordpressDays -= 1;
-            WorkDay workDay;
-            if (willBeLate) {
-                workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
-            }
-            else
-            {
-                workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
-            }
-            workDay.worker = programmer;
-            project.workDays.add(workDay);
-        } else if (project.prestashopDays > 0 && programmer.knowsPrestashop) {
-            project.prestashopDays -= 1;
-            WorkDay workDay;
-            if (willBeLate) {
-                workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
-            }
-            else
-            {
-                workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
-            }
-            workDay.worker = programmer;
-            project.workDays.add(workDay);
-        } else if (project.mobileDays > 0 && programmer.knowsMobile)
-            project.mobileDays -= 1;
-        WorkDay workDay;
-        if (willBeLate) {
-            workDay = new WorkDay(1, 4, date, date.plusDays(1), willBeWorkingProject);
         }
-            else
-            {
-                workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
-            }
-        workDay.worker = programmer;
-        project.workDays.add(workDay);
+        return isOK;
     }
 
     //OK
-    public void workOnProject(Project project, CoWorker coWorker, LocalDate date) {
-
+    public boolean workOnProject(Project project, CoWorker coWorker, LocalDate date) {
+        boolean isOK = false;
 
         boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 100) >= 5;
 
         boolean willBeLate;
         if (coWorker.punctuality != 1.0) {
             willBeLate = !(ThreadLocalRandom.current().nextInt(1, 101) < coWorker.punctuality * 100);
-        } else
-        {
+        } else {
             willBeLate = false;
         }
 
@@ -639,88 +641,86 @@ public class Company {
         if (coWorker.accuracy != 1.0) {
             int chanceOfWorkingProject = ThreadLocalRandom.current().nextInt(1, 101);
             willBeWorkingProject = chanceOfWorkingProject < coWorker.accuracy * 100;
-        } else
-        {
+        } else {
             willBeWorkingProject = true;
         }
 
-        if (workThisDay)
+        if (workThisDay) {
             if (project.backendDays > 0 && coWorker.knowsBackend) {
                 project.backendDays -= 1;
                 WorkDay workDay;
                 if (willBeLate) {
                     workDay = new WorkDay(1, 3, date, date.plusDays(1), willBeWorkingProject);
-                }
-                else
-                {
+                } else {
                     workDay = new WorkDay(1, 3, date, date, willBeWorkingProject);
                 }
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
+                isOK = true;
             } else if (project.frontendDays > 0 && coWorker.knowsFrontend) {
                 project.frontendDays -= 1;
                 WorkDay workDay;
                 if (willBeLate) {
                     workDay = new WorkDay(1, 3, date, date.plusDays(1), willBeWorkingProject);
-                }
-                else
-                {
+                } else {
                     workDay = new WorkDay(1, 3, date, date, willBeWorkingProject);
                 }
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
+                isOK = true;
             } else if (project.databaseDays > 0 && coWorker.knowsDatabase) {
                 project.databaseDays -= 1;
                 WorkDay workDay;
                 if (willBeLate) {
                     workDay = new WorkDay(1, 3, date, date.plusDays(1), willBeWorkingProject);
-                }
-                else
-                {
+                } else {
                     workDay = new WorkDay(1, 3, date, date, willBeWorkingProject);
                 }
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
+                isOK = true;
             } else if (project.wordpressDays > 0 && coWorker.knowsWordpress) {
                 project.wordpressDays -= 1;
                 WorkDay workDay;
                 if (willBeLate) {
                     workDay = new WorkDay(1, 3, date, date.plusDays(1), willBeWorkingProject);
-                }
-                else
-                {
+                } else {
                     workDay = new WorkDay(1, 3, date, date, willBeWorkingProject);
                 }
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
+                isOK = true;
             } else if (project.prestashopDays > 0 && coWorker.knowsPrestashop) {
                 project.prestashopDays -= 1;
                 WorkDay workDay;
                 if (willBeLate) {
                     workDay = new WorkDay(1, 3, date, date.plusDays(1), willBeWorkingProject);
-                }
-                else
-                {
+                } else {
                     workDay = new WorkDay(1, 3, date, date, willBeWorkingProject);
                 }
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
-            } else if (project.mobileDays > 0 && coWorker.knowsMobile)
+                isOK = true;
+            } else if (project.mobileDays > 0 && coWorker.knowsMobile) {
                 project.mobileDays -= 1;
-        WorkDay workDay;
-        if (willBeLate) {
-            workDay = new WorkDay(1, 3, date, date.plusDays(1), willBeWorkingProject);
+                WorkDay workDay;
+                if (willBeLate) {
+                    workDay = new WorkDay(1, 3, date, date.plusDays(1), willBeWorkingProject);
+                } else {
+                    workDay = new WorkDay(1, 3, date, date, willBeWorkingProject);
+                }
+                workDay.coWorker = coWorker;
+                project.workDays.add(workDay);
+                isOK = true;
+            }
         }
-        else
-        {
-            workDay = new WorkDay(1, 3, date, date, willBeWorkingProject);
-        }
-        workDay.coWorker = coWorker;
-        project.workDays.add(workDay);
+        return isOK;
     }
 
     //OK
-    public void testingProject(Project project, Tester tester, LocalDate date) {
+    public boolean testingProject(Project project, Tester tester, LocalDate date) {
+
+        boolean isOK = false;
         int numberOfProgrammers = 0;
 
         boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 100) >= 5;
@@ -739,7 +739,10 @@ public class Company {
                 }
                 project.daysToFinishTesting = 0;
                 project.isProjectRunnable = true;
-            } else {
+                isOK = true;
+            }
+            else
+            {
                 for (WorkDay workDay : project.workDays) {
                     if (!workDay.isTested) {
                         workDay.isTested = true;
@@ -747,18 +750,20 @@ public class Company {
                         workDay1.worker = tester;
                         project.workDays.add(workDay1);
                         project.daysToFinishTesting -= 1;
+                        isOK = true;
                         break;
                     }
                 }
             }
         }
+        return isOK;
     }
 
     //OK
     public void checkingProject(Project project) {
 
-        boolean isProjectFinished = project.wordpressDays + project.databaseDays +
-                project.backendDays + project.frontendDays + project.prestashopDays + project.mobileDays == 0;
+        boolean isProjectFinished = (project.wordpressDays + project.databaseDays +
+                project.backendDays + project.frontendDays + project.prestashopDays + project.mobileDays) == 0;
 
         if (isProjectFinished) {
             for (WorkDay workDay : project.workDays) {
@@ -781,8 +786,8 @@ public class Company {
                     project.dateWhenClientGetBackProject.plusDays(4).isBefore(project.dateWhenProjectIsWeekLate) ||
                     project.dateWhenClientGetBackProject.plusDays(5).isBefore(project.dateWhenProjectIsWeekLate) ||
                     project.dateWhenClientGetBackProject.plusDays(6).isBefore(project.dateWhenProjectIsWeekLate) ||
-                    project.dateWhenClientGetBackProject.plusDays(7).isBefore(project.dateWhenProjectIsWeekLate)
-            ) {
+                    project.dateWhenClientGetBackProject.plusDays(7).isBefore(project.dateWhenProjectIsWeekLate))
+            {
                 isProjectLateToAWeek = true;
             } else {
                 isProjectLateMoreAWeek = true;
