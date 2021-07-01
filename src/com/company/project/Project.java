@@ -315,7 +315,10 @@ public class Project {
                 "Project Level: " + projectLevel + "\n" +
                 x +
                 "\n" +
-                "Project is runnable:" + isProjectRunnable + "\n" +
+                "Project is runnable: " + isProjectRunnable + "\n" +
+                "Project working days remaining: " + (frontendDays + backendDays + databaseDays + mobileDays +
+                prestashopDays + wordpressDays) + "\n" +
+                "Project test working days remaining: " + daysToFinishTesting + "\n" +
                 "Actual release project date: " + dateWhenClientGetBackProject + "\n" +
                 "Actual payment project date: " + dateWhenProjectIsPaidByClient + "\n" +
                 "Actual payment: " + projectRealPrice +
