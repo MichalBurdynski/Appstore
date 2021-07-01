@@ -198,26 +198,15 @@ public class Company {
                 } else if (this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting == 0) {
                     throw new Exception();
                 } else {
-                    int amountOfWorkDaysTested = this.unfinishedProjects.get(indexInArrayList).workDays.size();
                     for (WorkDay workDay : this.unfinishedProjects.get(indexInArrayList).workDays) {
-                        if (workDay.isTested) {
-                            amountOfWorkDaysTested--;
-                        }
-                    }
-
-                    if (amountOfWorkDaysTested == 0) {
-                        throw new Exception();
-                    } else {
-                        for (WorkDay workDay : this.unfinishedProjects.get(indexInArrayList).workDays) {
-                            if (!workDay.isTested) {
-                                workDay.isTested = true;
-                                WorkDay workDay1 = new WorkDay(7, 1, date, date, true);
-                                this.unfinishedProjects.get(indexInArrayList).workDays.add(workDay1);
-                                this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting -= 1;
-                                System.out.println("New code has been tested.");
-                                isOK = true;
-                                break;
-                            }
+                        if (!workDay.isTested) {
+                            workDay.isTested = true;
+                            WorkDay workDay1 = new WorkDay(7, 1, date, date, true);
+                            this.unfinishedProjects.get(indexInArrayList).workDays.add(workDay1);
+                            this.unfinishedProjects.get(indexInArrayList).daysToFinishTesting -= 1;
+                            System.out.println("New code has been tested.");
+                            isOK = true;
+                            break;
                         }
                     }
                 }
@@ -379,7 +368,7 @@ public class Company {
     }
 
     //OK
-    public LocalDate finishingDay(int index, LocalDate date, ArrayList<Project> projects) {
+    public int finishingDay(int index, LocalDate date, ArrayList<Project> projects) {
 
         double runningCostsCoWorkers = 0.0;
         double runningCostsWorkers = 0.0;
@@ -523,10 +512,8 @@ public class Company {
             exit(0);
         }
 
-        date = date.plusDays(1);
-        return date;
+        return index;
     }
-
 
     //OK
     public boolean workOnProject(Project project, Programmer programmer, LocalDate date) {
@@ -558,6 +545,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(1, 4, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.worker = programmer;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -569,6 +557,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(2, 4, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.worker = programmer;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -580,6 +569,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(3, 4, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.worker = programmer;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -591,6 +581,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(4, 4, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.worker = programmer;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -602,6 +593,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(5, 4, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.worker = programmer;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -613,6 +605,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(5, 4, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.worker = programmer;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -651,6 +644,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(1, 3, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -662,6 +656,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(2, 3, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -673,6 +668,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(3, 3, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -684,6 +680,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(4, 3, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -695,6 +692,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(5, 3, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -706,6 +704,7 @@ public class Company {
                 } else {
                     workDay = new WorkDay(6, 3, date, date, willBeWorkingProject);
                 }
+                if (willBeWorkingProject) {project.daysToFinishTesting -=1;}
                 workDay.coWorker = coWorker;
                 project.workDays.add(workDay);
                 isOK = true;
@@ -718,28 +717,16 @@ public class Company {
     public boolean testingProject(Project project, Tester tester, LocalDate date) {
 
         boolean isOK = false;
-        int numberOfProgrammers = 0;
 
-        boolean workThisDay = ThreadLocalRandom.current().nextInt(0, 100) >= 5;
+        boolean workThisDay = ThreadLocalRandom.current().nextInt(1, 101) >= 5;
         if (workThisDay) {
+            int numberOfProgrammers = 0;
             for (Worker worker : workers) {
                 if (worker instanceof Programmer) {
                     numberOfProgrammers++;
                 }
             }
             if (numberOfProgrammers >= 3) {
-                for (WorkDay workDay : project.workDays) {
-                    workDay.isTested = true;
-                    WorkDay workDay1 = new WorkDay(7, 2, date, date, true);
-                    workDay1.worker = tester;
-                    project.workDays.add(workDay1);
-                }
-                project.daysToFinishTesting = 0;
-                project.isProjectRunnable = true;
-                isOK = true;
-            }
-            else
-            {
                 for (WorkDay workDay : project.workDays) {
                     if (!workDay.isTested) {
                         workDay.isTested = true;
@@ -753,9 +740,25 @@ public class Company {
                         workDay1.worker = tester;
                         project.workDays.add(workDay1);
                     }
-                    project.daysToFinishTesting -= 1;
-                    isOK = true;
-                    break;
+                }
+                project.daysToFinishTesting = 0;
+                project.isProjectRunnable = true;
+                isOK = true;
+            }
+            else
+            {
+                if (project.daysToFinishTesting > 0) {
+                    for (WorkDay workDay : project.workDays) {
+                        if (!workDay.isTested) {
+                            workDay.isTested = true;
+                            WorkDay workDay1 = new WorkDay(7, 2, date, date, true);
+                            workDay1.worker = tester;
+                            project.workDays.add(workDay1);
+                            project.daysToFinishTesting -= 1;
+                            isOK = true;
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -808,14 +811,26 @@ public class Company {
                         project.projectRealPrice = project.projectPrice;
                     }
                     if (ThreadLocalRandom.current().nextInt(1, 101) >= 30) {
-                        project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
+                        if (project.dateOfPayment.isBefore(date))
+                        {
+                            project.dateWhenProjectIsPaidByClient = date;
+                        }
+                        else {
+                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
+                        }
                     } else {
                         project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusWeeks(1);
                     }
                 }
                 else if (isProjectLateMoreAWeek) {
                     project.projectRealPrice = project.projectPrice - project.penaltyFixedByContract;
-                    project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
+                    if (project.dateOfPayment.isBefore(date))
+                    {
+                        project.dateWhenProjectIsPaidByClient = date;
+                    }
+                    else {
+                        project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
+                    }
                 }
                 else
                 {
@@ -836,8 +851,10 @@ public class Company {
                 if (project.isProjectRunnable) {
                     if (isProjectLate) {
                         project.projectRealPrice = project.projectPrice - project.penaltyFixedByContract;
+                        project.dateWhenProjectIsPaidByClient = date;
                     } else {
                         project.projectRealPrice = project.projectPrice;
+                        project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
                     }
                 } else {
                     if (ThreadLocalRandom.current().nextInt(0, 2) == 0) {
@@ -845,13 +862,15 @@ public class Company {
                     } else {
                         project.projectRealPrice = project.projectPrice;
                     }
+                    project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
                 }
             }
             else
             {
                 project.projectRealPrice = 0.0;
+                project.dateWhenProjectIsPaidByClient = date;
             }
-            project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
+
         }
 
         //Cheater
@@ -860,24 +879,50 @@ public class Company {
                 if (project.isProjectRunnable) {
                     if (isProjectLate) {
                         project.projectRealPrice = project.projectPrice - project.penaltyFixedByContract;
-                    }
-                    else
-                    {
-                        project.projectRealPrice = project.projectPrice;
-                    }
-                    if (ThreadLocalRandom.current().nextInt(1, 101) >= 1) {
-                        if (ThreadLocalRandom.current().nextInt(1, 101) >= 30) {
-                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
-                        } else if (ThreadLocalRandom.current().nextInt(1, 101) <= 5) {
-                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusWeeks(1);
-                        } else {
-                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusMonths(1);
+                        int x = ThreadLocalRandom.current().nextInt(1, 101);
+                        if (x > 30) {
+                            if (project.dateOfPayment.isBefore(date))
+                            {
+                                project.dateWhenProjectIsPaidByClient = date;
+                            }
+                            else {
+                                project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
+                            }
+                        } else if (x >= 5) {
+                            if (project.dateOfPayment.isBefore(date))
+                            {
+                                project.dateWhenProjectIsPaidByClient = date.plusWeeks(1);
+                            }
+                            else {
+                                project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusWeeks(1);
+                            }
+                        } else if (x > 1) {
+                            if (project.dateOfPayment.isBefore(date))
+                            {
+                                project.dateWhenProjectIsPaidByClient = date.plusMonths(1);
+                            }
+                            else {
+                                project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusMonths(1);
+                            }
+                        } else if (x == 1) {
+                            project.projectRealPrice = 0.0;
+                            project.dateWhenProjectIsPaidByClient = date;
                         }
                     }
                     else
                     {
-                        project.projectRealPrice = 0.0;
-                        project.dateWhenProjectIsPaidByClient = date;
+                        project.projectRealPrice = project.projectPrice;
+                        int x = ThreadLocalRandom.current().nextInt(1, 101);
+                        if (x > 30) {
+                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment;
+                        } else if (x >= 5) {
+                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusWeeks(1);
+                        } else if (x > 1) {
+                            project.dateWhenProjectIsPaidByClient = project.dateOfPayment.plusMonths(1);
+                        } else if (x == 1) {
+                            project.projectRealPrice = 0.0;
+                            project.dateWhenProjectIsPaidByClient = date;
+                        }
                     }
                 }
                 else
