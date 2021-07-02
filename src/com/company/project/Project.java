@@ -30,6 +30,7 @@ public class Project {
     public ArrayList<WorkDay> workDays;
     public int whoGeneratedProject;
     public int daysToFinishTesting;
+    public double paymentOnAccount;
 
     //Project level
     //1 - basic project
@@ -168,6 +169,14 @@ public class Project {
         this.dateOfPayment = this.releaseProjectDate.plusDays(this.paymentDays);
         this.workDays = new ArrayList<>();
         this.daysToFinishTesting = this.prestashopDays + this.databaseDays+this.wordpressDays+this.backendDays+this.mobileDays+this.frontendDays;
+        if (this.projectLevel == 3)
+        {
+            this.paymentOnAccount = 0.2*this.projectPrice;
+        }
+        else
+        {
+            this.paymentOnAccount = 0.0;
+        }
     }
 
     public Project(int projectIndex, int whoGeneratedProject, LocalDate date, int level) {
@@ -293,6 +302,14 @@ public class Project {
         this.dateOfPayment = this.releaseProjectDate.plusDays(this.paymentDays);
         this.workDays = new ArrayList<>();
         this.daysToFinishTesting = this.prestashopDays + this.databaseDays+this.wordpressDays+this.backendDays+this.mobileDays+this.frontendDays;
+        if (this.projectLevel == 3)
+        {
+            this.paymentOnAccount = 20*this.projectPrice/100;
+        }
+        else
+        {
+            this.paymentOnAccount = 0.0;
+        }
     }
 
     @Override
@@ -316,6 +333,7 @@ public class Project {
                 "Payment project date: " + dateOfPayment + "\n" +
                 "Project Value: " + projectPrice + "\n" +
                 "Contractual penalty : " + penaltyFixedByContract + "\n" +
+                "Payment on account: " + paymentOnAccount + "\n" +
                 "Project Level: " + projectLevel + "\n" +
                 x +
                 "\n" +
