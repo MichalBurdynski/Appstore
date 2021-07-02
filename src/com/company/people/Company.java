@@ -470,7 +470,7 @@ public class Company {
             }
 
             //10% for juices and bananas for developers and cookies for sellers
-            runningCostsOverall = 1.1 * (runningCostsCoWorkers + runningCostsWorkers);
+            runningCostsOverall = 110 * (runningCostsCoWorkers + runningCostsWorkers)/100;
 
             this.availableCash -= runningCostsOverall;
 
@@ -483,7 +483,7 @@ public class Company {
                     }
                 }
 
-                incomeTax = 0.1 * income;
+                incomeTax = 10 * income/100;
                 if (incomeTax > this.availableCash) {
                     this.availableCash = -10000000.0;
                 } else {

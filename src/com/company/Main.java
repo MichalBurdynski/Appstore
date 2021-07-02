@@ -2,7 +2,6 @@ package com.company;
 
 import com.company.people.*;
 import com.company.project.Project;
-import com.company.project.WorkDay;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
