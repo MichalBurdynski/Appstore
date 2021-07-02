@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.System.exit;
@@ -498,13 +499,13 @@ public class Company {
         int numberOfProjectsGeneratedBySellers = 0;
 
         for (Project project : this.finishedProjects) {
-            if (project.whoGeneratedProject == 2 && project.projectLevel == 3) {
+            if (project.whoGeneratedProject == 2 && project.projectLevel == 3 && Objects.equals(project.projectPrice, project.projectRealPrice)) {
                 numberOfProjectsGeneratedBySellers++;
             }
         }
 
         for (Project project : this.finishedProjects) {
-            if (project.projectLevel == 3) {
+            if (project.projectLevel == 3 && Objects.equals(project.projectPrice, project.projectRealPrice)) {
                 boolean isDoneByWorkers = true;
                 for (WorkDay workDay : project.workDays) {
                     if (workDay.typeOfWorker == 1) {
@@ -518,7 +519,7 @@ public class Company {
             }
         }
 
-        if ((isSolvable) && (numberOfFinishedBigProjects == 3) && (numberOfProjectsGeneratedBySellers >= 1)) {
+        if ((isSolvable) && (numberOfFinishedBigProjects >= 3) && (numberOfProjectsGeneratedBySellers >= 1)) {
             System.out.println("VICTORY!!!");
             exit(0);
         }

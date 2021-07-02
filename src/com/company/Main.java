@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.people.*;
 import com.company.project.Project;
+import com.company.project.WorkDay;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -237,7 +238,6 @@ public class Main {
         String companyName2 = "Micro Apple";
         Company company1 = new Company(companyName1);
         Company company2 = new Company(companyName2);
-
 
         System.out.println("Welcome in 'AppStore' game.");
         System.out.println("""
