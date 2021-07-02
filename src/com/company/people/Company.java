@@ -410,8 +410,7 @@ public class Company {
                 }
             }
 
-            for (Worker worker: workers)
-            {
+            for (Worker worker : workers) {
                 if (worker instanceof Seller) {
                     index = worker.GenerateProject(projects, index, date);
                 }
@@ -429,8 +428,7 @@ public class Company {
         int monthNumber = date.getMonthValue();
         if (((dayOfMonth == 28) && (monthNumber == 2)) ||
                 ((dayOfMonth == 30) && ((monthNumber == 4) || (monthNumber == 6) || (monthNumber == 9) || (monthNumber == 11))) ||
-                ((dayOfMonth == 31) && ((monthNumber == 1) || (monthNumber == 3) || (monthNumber == 5) || (monthNumber == 7) || (monthNumber == 8) || (monthNumber == 10) || (monthNumber == 12))))
-        {
+                ((dayOfMonth == 31) && ((monthNumber == 1) || (monthNumber == 3) || (monthNumber == 5) || (monthNumber == 7) || (monthNumber == 8) || (monthNumber == 10) || (monthNumber == 12)))) {
             if (this.daysToPayOffBills < 2) {
                 this.availableCash = -100000000.0;
             } else {
@@ -438,41 +436,42 @@ public class Company {
             }
 
             for (CoWorker coWorker : coWorkers) {
-                double salary;
-                salary = salaryCheckCoWorker(this.unfinishedProjects, this.finishedProjects, coWorker.idWorker, date);
-                if (salary > this.availableCash) {
-                    coWorkers.remove(coWorker);
-                }
-                runningCostsCoWorkers = salary;
+                double salary = salaryCheckCoWorker(this.unfinishedProjects, this.finishedProjects, coWorker.idWorker, date);
+                runningCostsCoWorkers += salary;
             }
+            coWorkers.removeIf(coWorker -> salaryCheckCoWorker(this.unfinishedProjects, this.finishedProjects, coWorker.idWorker, date) > this.availableCash);
 
             for (Worker worker : this.workers) {
                 runningCostsWorkers += worker.salary;
+            }
+            workers.removeIf(worker -> worker.salary > this.availableCash);
 
-                //10% for juices and bananas for developers and cookies for sellers
-                runningCostsOverall = 1.1 * (runningCostsCoWorkers + runningCostsWorkers);
 
-                this.availableCash -= runningCostsOverall;
 
-                //Tax
-                {
-                    double income = 0.0;
-                    for (Project project : this.finishedProjects) {
-                        if (project.dateWhenProjectIsPaidByClient.getMonthValue() == (monthNumber) && (project.dateWhenProjectIsPaidByClient.getYear() == date.getYear())) {
-                            income += project.projectRealPrice;
-                        }
+
+            //10% for juices and bananas for developers and cookies for sellers
+            runningCostsOverall = 1.1 * (runningCostsCoWorkers + runningCostsWorkers);
+
+            this.availableCash -= runningCostsOverall;
+
+            //Tax
+            {
+                double income = 0.0;
+                for (Project project : this.finishedProjects) {
+                    if (project.dateWhenProjectIsPaidByClient.getMonthValue() == (monthNumber) && (project.dateWhenProjectIsPaidByClient.getYear() == date.getYear())) {
+                        income += project.projectRealPrice;
                     }
+                }
 
-                    incomeTax = 0.1 * income;
-                    if (incomeTax > this.availableCash) {
-                        System.out.println("GAME OVER !!! You are bankrupt.");
-                        this.availableCash = -10000000.0;
-                    } else {
-                        this.availableCash -= incomeTax;
-                    }
+                incomeTax = 0.1 * income;
+                if (incomeTax > this.availableCash) {
+                    this.availableCash = -10000000.0;
+                } else {
+                    this.availableCash -= incomeTax;
                 }
             }
         }
+
 
         //Victory conditions
         boolean isSolvable = this.availableCash > 0.0;
