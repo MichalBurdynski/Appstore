@@ -493,7 +493,7 @@ public class Company {
 
 
         //Victory conditions
-        boolean isSolvable = this.availableCash > 0.0;
+        boolean isSolvable = this.availableCash > DEFAULT_START_CASH;
 
         int numberOfFinishedBigProjects = 0;
         int numberOfProjectsGeneratedBySellers = 0;
