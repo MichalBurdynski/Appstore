@@ -1,6 +1,7 @@
 package com.company.people;
 
 import com.company.project.Project;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public abstract class Worker {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "idWorker=" + idWorker;
     }
 

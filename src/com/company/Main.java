@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.people.*;
 import com.company.project.Project;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,11 +15,10 @@ public class Main {
     public static int userMenu(LocalDate date) {
         int userChoice;
         Scanner input = new Scanner(System.in);
-        System.out.println("Actual date: " + date +"\n");
+        System.out.println("Actual date: " + date + "\n");
         System.out.println("Select option:");
         System.out.println("1 - let's start the day of hard work");
         System.out.println("0 - exit the game");
-
         userChoice = input.nextInt();
         return userChoice;
     }
@@ -167,10 +167,8 @@ public class Main {
         return userChoice;
     }
 
-    public static int gameOverConditions(Company company, int choice)
-    {
-        if (company.availableCash <= 0.0)
-        {
+    public static int gameOverConditions(@NotNull Company company, int choice) {
+        if (company.availableCash <= 0.0) {
             System.out.println("Your company " + company.companyName + " is bankrupt. GAME OVER !!!\n");
             choice = 0;
             //exit(0);
@@ -178,10 +176,8 @@ public class Main {
         return choice;
     }
 
-    public static void gameOverTotal(int choice1, int choice2)
-    {
-        if (choice1 == 0 && choice2 == 0)
-        {
+    public static void gameOverTotal(int choice1, int choice2) {
+        if (choice1 == 0 && choice2 == 0) {
             System.out.println("GAME OVER !!!");
             exit(0);
         }
@@ -395,144 +391,144 @@ public class Main {
                     }
 
 
-                        while (choice1 != 0) {
-                            choice1 = mainMenu(actualDate, companyName2);
+                    while (choice1 != 0) {
+                        choice1 = mainMenu(actualDate, companyName2);
 
-                            switch (choice1) {
-                                case 1 -> {
-                                    int i = subMenuProject(availableProjects);
-                                    if (i != 0) {
-                                        if (company2.setProject(i, availableProjects)) {
-                                            projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                            choice1 = 0;
-                                        }
+                        switch (choice1) {
+                            case 1 -> {
+                                int i = subMenuProject(availableProjects);
+                                if (i != 0) {
+                                    if (company2.setProject(i, availableProjects)) {
+                                        projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                        choice1 = 0;
                                     }
                                 }
-                                case 2 -> {
-                                    projectIndex = company2.lookingForClient(availableProjects, projectIndex, actualDate);
-                                    projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                    choice1 = 0;
-                                }
-                                case 3 -> {
-                                    int i = subMenuProjectWorking(company1.unfinishedProjects);
-                                    if (i != 0) {
-                                        if (company2.workOnProjectAlone(i, actualDate)) {
-                                            projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                            choice1 = 0;
-                                        }
-                                    }
-                                }
-                                case 4 -> {
-                                    int i = subMenuProjectTesting(company1.unfinishedProjects);
-                                    if (i != 0) {
-                                        if (company2.testingProject(i, actualDate)) {
-                                            projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                            choice1 = 0;
-                                        }
-                                    }
-                                }
-                                case 5 -> {
-                                    int i = subMenuProjectRelease(company1.unfinishedProjects);
-                                    if (i != 0) {
-                                        if (company2.releaseProject(i, actualDate)) {
-                                            projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                            choice1 = 0;
-                                        }
-                                    }
-                                }
-                                case 6 -> {
-                                    int j;
-                                    int k;
-                                    int i = subMenuHireWorkerGlobal();
-                                    if (i == 1) {
-                                        j = subMenuHireWorkers(availableWorkers);
-                                        {
-                                            if (j != 0) {
-                                                int c = workerIndex;
-                                                int x = company2.setWorker(j, availableWorkers, workerIndex);
-                                                if (c != x) {
-                                                    projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                                    choice1 = 0;
-                                                    workerIndex = x;
-                                                }
-                                            }
-                                        }
-                                    } else if (i == 2) {
-                                        k = subMenuHireCoWorker(availableCoWorkers);
-                                        {
-                                            if (k != 0) {
-                                                if (company2.setCoWorker(k, availableCoWorkers)) {
-                                                    projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                                    choice1 = 0;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                case 7 -> {
-                                    int j;
-                                    int k;
-                                    int i = subMenuDismissWorkerGlobal();
-                                    if (i == 1) {
-                                        j = subMenuDismissWorkers(company2.workers);
-                                        {
-                                            if (j != 0) {
-                                                if (company2.dismissWorker(j, availableWorkers)) {
-                                                    projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                                    choice1 = 0;
-                                                }
-                                            }
-                                        }
-                                    } else if (i == 2) {
-                                        k = subMenuDismissCoWorker(company2.coWorkers);
-                                        {
-                                            if (k != 0) {
-                                                if (company2.dismissCoWorker(k, availableCoWorkers)) {
-                                                    projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                                    choice1 = 0;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                case 8 -> {
-                                    company2.payOffBills();
-                                    projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
-                                    choice1 = 0;
-                                }
-                                case 9 -> {
-                                    int k = subMenuResults();
-                                    switch (k) {
-                                        case 1: {
-                                            System.out.println("Available projects: \n");
-                                            System.out.println(availableProjects);
-                                        }
-                                        break;
-
-                                        case 2: {
-                                            System.out.println("1Unfinished projects: \n");
-                                            System.out.println(company2.unfinishedProjects);
-                                            System.out.println("Released projects: \n");
-                                            System.out.println(company2.finishedProjects);
-                                        }
-                                        break;
-                                        case 3: {
-                                            System.out.println("Employees: \n");
-                                            System.out.println(company2.workers);
-                                            System.out.println("Associates: \n");
-                                            System.out.println(company2.coWorkers);
-                                        }
-                                        break;
-                                        case 4:
-                                            System.out.println("Account balance: " + company2.availableCash);
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                default -> mainMenu(actualDate, companyName2);
                             }
+                            case 2 -> {
+                                projectIndex = company2.lookingForClient(availableProjects, projectIndex, actualDate);
+                                projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                choice1 = 0;
+                            }
+                            case 3 -> {
+                                int i = subMenuProjectWorking(company1.unfinishedProjects);
+                                if (i != 0) {
+                                    if (company2.workOnProjectAlone(i, actualDate)) {
+                                        projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                        choice1 = 0;
+                                    }
+                                }
+                            }
+                            case 4 -> {
+                                int i = subMenuProjectTesting(company1.unfinishedProjects);
+                                if (i != 0) {
+                                    if (company2.testingProject(i, actualDate)) {
+                                        projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                        choice1 = 0;
+                                    }
+                                }
+                            }
+                            case 5 -> {
+                                int i = subMenuProjectRelease(company1.unfinishedProjects);
+                                if (i != 0) {
+                                    if (company2.releaseProject(i, actualDate)) {
+                                        projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                        choice1 = 0;
+                                    }
+                                }
+                            }
+                            case 6 -> {
+                                int j;
+                                int k;
+                                int i = subMenuHireWorkerGlobal();
+                                if (i == 1) {
+                                    j = subMenuHireWorkers(availableWorkers);
+                                    {
+                                        if (j != 0) {
+                                            int c = workerIndex;
+                                            int x = company2.setWorker(j, availableWorkers, workerIndex);
+                                            if (c != x) {
+                                                projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                                choice1 = 0;
+                                                workerIndex = x;
+                                            }
+                                        }
+                                    }
+                                } else if (i == 2) {
+                                    k = subMenuHireCoWorker(availableCoWorkers);
+                                    {
+                                        if (k != 0) {
+                                            if (company2.setCoWorker(k, availableCoWorkers)) {
+                                                projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                                choice1 = 0;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            case 7 -> {
+                                int j;
+                                int k;
+                                int i = subMenuDismissWorkerGlobal();
+                                if (i == 1) {
+                                    j = subMenuDismissWorkers(company2.workers);
+                                    {
+                                        if (j != 0) {
+                                            if (company2.dismissWorker(j, availableWorkers)) {
+                                                projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                                choice1 = 0;
+                                            }
+                                        }
+                                    }
+                                } else if (i == 2) {
+                                    k = subMenuDismissCoWorker(company2.coWorkers);
+                                    {
+                                        if (k != 0) {
+                                            if (company2.dismissCoWorker(k, availableCoWorkers)) {
+                                                projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                                choice1 = 0;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            case 8 -> {
+                                company2.payOffBills();
+                                projectIndex = company2.finishingDay(projectIndex, actualDate, availableProjects, availableWorkers, availableCoWorkers);
+                                choice1 = 0;
+                            }
+                            case 9 -> {
+                                int k = subMenuResults();
+                                switch (k) {
+                                    case 1: {
+                                        System.out.println("Available projects: \n");
+                                        System.out.println(availableProjects);
+                                    }
+                                    break;
+
+                                    case 2: {
+                                        System.out.println("1Unfinished projects: \n");
+                                        System.out.println(company2.unfinishedProjects);
+                                        System.out.println("Released projects: \n");
+                                        System.out.println(company2.finishedProjects);
+                                    }
+                                    break;
+                                    case 3: {
+                                        System.out.println("Employees: \n");
+                                        System.out.println(company2.workers);
+                                        System.out.println("Associates: \n");
+                                        System.out.println(company2.coWorkers);
+                                    }
+                                    break;
+                                    case 4:
+                                        System.out.println("Account balance: " + company2.availableCash);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            default -> mainMenu(actualDate, companyName2);
                         }
+                    }
                     actualDate = actualDate.plusDays(1);
                 }
                 case 0 -> exit(0);

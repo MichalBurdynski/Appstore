@@ -1,27 +1,16 @@
 package com.company.project;
 
 import com.company.people.CoWorker;
-import com.company.people.Worker;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDate;
 
 public class WorkDay {
-    public Integer typeOfWork;
-    public Integer typeOfWorker;
-    public LocalDate dateWhenWorksStarts;
-    public LocalDate dateWhenWorksFinishes;
+    public final Integer typeOfWorker;
+    public final LocalDate dateWhenWorksFinishes;
     public Boolean isTested;
-    public Worker worker;
-    public CoWorker coWorker;
+    public @Nullable CoWorker coWorker;
 
-    //typeofWork
-    //1 - backend
-    //2 - frontend
-    //3 - database
-    //4 - wordpress
-    //5 - prestashop
-    //6 - mobile
-    //7 - tests
 
     //typeOfWorker
     //1 - company owner
@@ -29,14 +18,10 @@ public class WorkDay {
     //3 - coWorker
     //4 - programmer
 
-
-    public WorkDay(Integer typeOfWork, Integer typeOfWorker, LocalDate dateWhenWorksStarts, LocalDate dateWhenWorksFinishes, Boolean isTested) {
-        this.typeOfWork = typeOfWork;
+    public WorkDay(Integer typeOfWorker, LocalDate dateWhenWorksFinishes, Boolean isTested) {
         this.typeOfWorker = typeOfWorker;
-        this.dateWhenWorksStarts = dateWhenWorksStarts;
         this.dateWhenWorksFinishes = dateWhenWorksFinishes;
         this.isTested = isTested;
-        this.worker = null;
         this.coWorker = null;
     }
 }

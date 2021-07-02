@@ -1,26 +1,40 @@
 package com.company.people;
 
 import com.company.project.Project;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Programmer extends Worker{
+public class Programmer extends Worker {
 
-    public boolean knowsBackend;
-    public boolean knowsFrontend;
-    public boolean knowsDatabase;
-    public boolean knowsMobile;
-    public boolean knowsWordpress;
-    public boolean knowsPrestashop;
-    public double accuracy;
-    public double punctuality;
+    public final boolean knowsBackend;
+    public final boolean knowsFrontend;
+    public final boolean knowsDatabase;
+    public final boolean knowsMobile;
+    public final boolean knowsWordpress;
+    public final boolean knowsPrestashop;
+    public final double accuracy;
+    public final double punctuality;
+
+    public Programmer(int idWorker) {
+        super(idWorker);
+        this.salary = Math.floor(ThreadLocalRandom.current().nextDouble(3000.0, 5001.0));
+        this.accuracy = ThreadLocalRandom.current().nextInt(8, 11) / 10.0;
+        this.punctuality = ThreadLocalRandom.current().nextInt(8, 11) / 10.0;
+        this.knowsBackend = true;
+        this.knowsFrontend = ThreadLocalRandom.current().nextInt(0, 2) == 1;
+        this.knowsDatabase = ThreadLocalRandom.current().nextInt(0, 2) == 1;
+        this.knowsMobile = ThreadLocalRandom.current().nextInt(0, 2) == 1;
+        this.knowsPrestashop = ThreadLocalRandom.current().nextInt(0, 2) == 1;
+        this.knowsWordpress = ThreadLocalRandom.current().nextInt(0, 2) == 1;
+    }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "\nProgrammer\n" +
-                super.toString()+ "\n" +
+                super.toString() + "\n" +
                 "knowsBackend=" + knowsBackend + "\n" +
                 "knowsFrontend=" + knowsFrontend + "\n" +
                 "knowsDatabase=" + knowsDatabase + "\n" +
@@ -42,19 +56,6 @@ public class Programmer extends Worker{
         if (!(o instanceof Programmer)) return false;
         Programmer that = (Programmer) o;
         return knowsBackend == that.knowsBackend && knowsFrontend == that.knowsFrontend && knowsDatabase == that.knowsDatabase && knowsMobile == that.knowsMobile && knowsWordpress == that.knowsWordpress && knowsPrestashop == that.knowsPrestashop && Double.compare(that.accuracy, accuracy) == 0 && Double.compare(that.punctuality, punctuality) == 0;
-    }
-
-    public Programmer(int idWorker) {
-        super(idWorker);
-        this.salary = Math.floor(ThreadLocalRandom.current().nextDouble(3000.0, 5001.0));
-        this.accuracy = ThreadLocalRandom.current().nextInt(8, 11)/10.0;
-        this.punctuality = ThreadLocalRandom.current().nextInt(8, 11)/10.0;
-        this.knowsBackend = true;
-        this.knowsFrontend = ThreadLocalRandom.current().nextInt(0, 2) == 1;
-        this.knowsDatabase = ThreadLocalRandom.current().nextInt(0, 2) == 1;
-        this.knowsMobile = ThreadLocalRandom.current().nextInt(0, 2) == 1;
-        this.knowsPrestashop = ThreadLocalRandom.current().nextInt(0, 2) == 1;
-        this.knowsWordpress = ThreadLocalRandom.current().nextInt(0, 2) == 1;
     }
 }
 
