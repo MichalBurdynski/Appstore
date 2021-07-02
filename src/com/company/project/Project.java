@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Project {
     public final int projectIndex;
+    public String projectName;
     public Integer frontendDays = 0;
     public Integer backendDays = 0;
     public Integer databaseDays = 0;
@@ -46,6 +47,7 @@ public class Project {
 
     public Project(int projectIndex, int whoGeneratedProject, LocalDate date) {
         this.projectLevel = ThreadLocalRandom.current().nextInt(1,4);
+        this.projectName = "Project No." + projectIndex;
         switch (this.projectLevel) {
             case 1: {
                 int numberOfTechnology = ThreadLocalRandom.current().nextInt(1, 6);
@@ -170,6 +172,7 @@ public class Project {
 
     public Project(int projectIndex, int whoGeneratedProject, LocalDate date, int level) {
         this.projectLevel = level;
+        this.projectName = "Project No." + projectIndex;
         switch (level) {
             case 1: {
                 int numberOfTechnology = ThreadLocalRandom.current().nextInt(1, 6);
@@ -302,6 +305,7 @@ public class Project {
             default: break;
         }
         return  "\nidProject: " + projectIndex + "\n" +
+                "Project Name: " + projectName + "\n" +
                 "Frontend working days: " + frontendDays + "\n" +
                 "Backend working days: " + backendDays + "\n" +
                 "Database working days: " + databaseDays + "\n" +
