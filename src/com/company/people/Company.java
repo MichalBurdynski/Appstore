@@ -6,6 +6,7 @@ import com.company.project.WorkDay;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.System.exit;
@@ -368,7 +369,7 @@ public class Company {
     }
 
     //OK
-    public int finishingDay(int index, LocalDate date, ArrayList<Project> projects) {
+    public int finishingDay(int index, LocalDate date, ArrayList<Project> projects, ArrayList<Worker> allWorkers, ArrayList<CoWorker> allCoWorkers) {
 
         double runningCostsCoWorkers = 0.0;
         double runningCostsWorkers = 0.0;
@@ -439,15 +440,32 @@ public class Company {
                 double salary = salaryCheckCoWorker(this.unfinishedProjects, this.finishedProjects, coWorker.idWorker, date);
                 runningCostsCoWorkers += salary;
             }
-            coWorkers.removeIf(coWorker -> salaryCheckCoWorker(this.unfinishedProjects, this.finishedProjects, coWorker.idWorker, date) > this.availableCash);
+            Iterator<CoWorker> coWorkerIterator = coWorkers.iterator();
+            while (coWorkerIterator.hasNext())
+            {
+                CoWorker coWorker = coWorkerIterator.next();
+                if (salaryCheckCoWorker(this.unfinishedProjects, this.finishedProjects, coWorker.idWorker, date) > this.availableCash)
+                {
+                    allCoWorkers.add(coWorker);
+                    coWorkerIterator.remove();
+                }
+
+            }
 
             for (Worker worker : this.workers) {
                 runningCostsWorkers += worker.salary;
             }
-            workers.removeIf(worker -> worker.salary > this.availableCash);
+            Iterator<Worker> workerIterator = workers.iterator();
+            while (workerIterator.hasNext())
+            {
+                Worker worker = workerIterator.next();
+                if (worker.salary > this.availableCash)
+                {
+                    allWorkers.add(worker);
+                    workerIterator.remove();
+                }
 
-
-
+            }
 
             //10% for juices and bananas for developers and cookies for sellers
             runningCostsOverall = 1.1 * (runningCostsCoWorkers + runningCostsWorkers);
