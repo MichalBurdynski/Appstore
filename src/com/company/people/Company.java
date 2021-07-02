@@ -498,7 +498,7 @@ public class Company {
         int numberOfProjectsGeneratedBySellers = 0;
 
         for (Project project : this.finishedProjects) {
-            if (project.whoGeneratedProject == 2) {
+            if (project.whoGeneratedProject == 2 && project.projectLevel == 3) {
                 numberOfProjectsGeneratedBySellers++;
             }
         }
