@@ -243,6 +243,8 @@ public class Main {
                 Remember that an employee will leave your company when they are not paid.
                 The game will over when company has no funds to pay taxes
                 or the company account balance is less than 5000.0.
+                
+                REMEMBER TO ENTER NUMBERS ONLY, OTHERWISE THE APPLICATION WILL CRASH!!!
                 """);
 
         int firstChoice;
