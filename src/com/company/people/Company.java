@@ -466,18 +466,12 @@ public class Company {
                     incomeTax = 0.1 * income;
                     if (incomeTax > this.availableCash) {
                         System.out.println("GAME OVER !!! You are bankrupt.");
-                        exit(0);
+                        this.availableCash = -10000000.0;
                     } else {
                         this.availableCash -= incomeTax;
                     }
                 }
             }
-        }
-
-        //Game over conditions
-        if (availableCash <= 0.0) {
-            System.out.println("GAME OVER !!! You are bankrupt.");
-            exit(0);
         }
 
         //Victory conditions
