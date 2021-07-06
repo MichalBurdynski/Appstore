@@ -34,7 +34,7 @@ public class Company {
         this.workers = new ArrayList<>();
     }
 
-    //OK
+    //Signing the contract
     public boolean setProject(int index, @NotNull ArrayList<Project> projects) {
         boolean isOK = false;
         try {
@@ -65,7 +65,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Releasing the project to the client
     public boolean releaseProject(int index, @NotNull LocalDate date) {
         boolean isOK = false;
         try {
@@ -99,7 +99,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Player alone working on the project
     public boolean workOnProjectAlone(int index, LocalDate date) {
         boolean isOK = false;
         try {
@@ -159,7 +159,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Player generating a new project
     public int lookingForClient(@NotNull ArrayList<Project> projects, int projectIndex, LocalDate date) {
         Project project;
         if (this.daysToNewProject == 4) {
@@ -174,7 +174,7 @@ public class Company {
         return projectIndex;
     }
 
-    //OK
+    //Player tests the code itself
     public boolean testingProject(int index, LocalDate date) {
         boolean isOK = false;
         try {
@@ -215,7 +215,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Hiring a new associate
     public boolean setCoWorker(int index, @NotNull ArrayList<CoWorker> coWorkers) {
         boolean isOK = false;
         try {
@@ -244,7 +244,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Hiring a new employee
     public int setWorker(int index, @NotNull ArrayList<Worker> workers, int workerIndex) {
         try {
             int indexInArrayList = -1;
@@ -284,7 +284,7 @@ public class Company {
         return workerIndex;
     }
 
-    //OK
+    //Dismissal of a colleague
     public boolean dismissCoWorker(int index, @NotNull ArrayList<CoWorker> coWorkers) {
         boolean isOK = false;
         try {
@@ -313,7 +313,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Dismissal of an employee
     public boolean dismissWorker(int index, @NotNull ArrayList<Worker> workers) {
         boolean isOK = false;
         try {
@@ -342,7 +342,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Spending a day at the tax office
     public void payOffBills() {
         {
             this.daysToPayOffBills += 1;
@@ -362,7 +362,7 @@ public class Company {
                 "Visits in tax offices: " + daysToPayOffBills + "\n";
     }
 
-    //OK
+    //End of the working day and month
     public int finishingDay(int index, @NotNull LocalDate date, ArrayList<Project> projects, @NotNull ArrayList<Worker> allWorkers, @NotNull ArrayList<CoWorker> allCoWorkers) {
 
         double runningCostsCoWorkers = 0.0;
@@ -370,6 +370,7 @@ public class Company {
         double runningCostsOverall;
         double incomeTax;
 
+        //Working day of employees
         DayOfWeek day = date.getDayOfWeek();
         int dayNumber = day.getValue();
 
@@ -516,7 +517,7 @@ public class Company {
         return index;
     }
 
-    //OK
+    //Employees working on the project
     public boolean workOnProject(@NotNull Project project, @NotNull Programmer programmer, @NotNull LocalDate date) {
 
         boolean isOK = false;
@@ -621,7 +622,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Colleagues working on the project
     public boolean workOnProject(@NotNull Project project, @NotNull CoWorker coWorker, @NotNull LocalDate date) {
         boolean isOK = false;
 
@@ -732,7 +733,7 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Employees testing the code
     public boolean testingProject(@NotNull Project project, LocalDate date) {
 
         boolean isOK = false;
@@ -777,12 +778,14 @@ public class Company {
         return isOK;
     }
 
-    //OK
+    //Testing the project before releasing to the client
     public void checkingProject(@NotNull Project project, @NotNull LocalDate date) {
 
+        //Is the project finished?
         boolean isProjectFinished = (project.wordpressDays + project.databaseDays +
                 project.backendDays + project.frontendDays + project.prestashopDays + project.mobileDays) == 0;
 
+        //Is the project runnable?
         if (isProjectFinished) {
             for (WorkDay workDay : project.workDays) {
                 if (!workDay.isTested) {
@@ -794,6 +797,7 @@ public class Company {
             }
         }
 
+        //Is the project late?
         boolean isProjectLate = false;
         boolean isProjectLateToAWeek = false;
         boolean isProjectLateMoreAWeek = false;
@@ -949,7 +953,7 @@ public class Company {
         }
     }
 
-    //OK
+    //Calculation of colleagues' salaries
     public double salaryCheckCoWorker(@NotNull ArrayList<Project> unfinishedProjects, @NotNull ArrayList<Project> finishedProjects, int idCoworker, @NotNull LocalDate date) {
         double salary = 0.0;
         int monthNumber = date.getMonthValue();

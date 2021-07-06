@@ -24,7 +24,7 @@ public class Seller extends Worker {
                 "\n";
     }
 
-    //OK
+    //Generate a new project
     public int GenerateProject(@NotNull ArrayList<Project> projects, int projectIndex, LocalDate date) {
         if (daysOfWorks == 4) {
             Project project = new Project(projectIndex, 2, date);

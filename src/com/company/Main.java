@@ -12,6 +12,8 @@ import static java.lang.System.exit;
 
 public class Main {
 
+
+    //Menus
     public static int userMenu(LocalDate date) {
         int userChoice;
         Scanner input = new Scanner(System.in);
@@ -167,6 +169,7 @@ public class Main {
         return userChoice;
     }
 
+    //Is the game lost
     public static int gameOverConditions(@NotNull Company company, int choice) {
         if (company.availableCash <= 0.0) {
             System.out.println("Your company " + company.companyName + " is bankrupt. GAME OVER !!!\n");
@@ -188,7 +191,7 @@ public class Main {
         int projectIndex = 1;
         int workerIndex = 1;
         int coWorkerIndex = 1;
-        // test
+
         LocalDate actualDate = LocalDate.of(2020, 1, 1);
 
         ArrayList<Project> availableProjects = new ArrayList<>();
